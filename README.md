@@ -1,4 +1,3 @@
-# Customer Churn Intelligence Pipeline
 # End-to-End Customer Churn Intelligence Pipeline
 
 ## Project Overview
