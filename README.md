@@ -3,22 +3,40 @@
 ## Project Overview
 In the highly competitive telecommunications sector, retaining customers is as critical as acquiring new ones. This project implements a **production-grade data intelligence pipeline** designed to predict customer churn with high precision. By integrating automated ETL processes with advanced machine learning, the pipeline transforms raw customer data into prioritized retention strategies.
 
-**Objective:** To reduce revenue loss by identifying high-risk customer segments and providing actionable data-driven recommendationsfor the customer success team.
+**Objective:** To reduce revenue loss by identifying high-risk customer segments and providing actionable data-driven recommendations for the customer success team.
 
 ---
 
 ## Technical Architecture & Workflow
-The pipeline is built with a modular structure, ensuring each stage of the data lifecycle is handled with precision. The pipeline is designed with modularity and scalability in mind, adhering to modern software engineering principles:
+The pipeline is built with a modular structure, ensuring each stage of the data lifecycle is handled with precision:
 
-* **Data Ingestion & Audit:** Automated loading with structural integrity checks (schema validation and unique value analysis).
-* **Robust Data Cleaning:** - Handling structural errors and inconsistent data types (e.g., `TotalCharges`).
-    - **Outlier Management:** Using the **Interquartile Range (IQR) method** to identify and neutralize statistical anomalies.
-* **Feature Engineering:** - Correlation analysis to identify key churn drivers.
-* **Feature Intelligence:** Engineering of behavioral metrics and categorical encoding (Label & One-Hot) to maximize model signal.
-    - Implementation of **Feature Scaling** (Standardization/Normalization) and categorical encoding.
-* **Predictive Modeling:** - **Split Strategy:** 70% Training / 30% Testing to ensure robust model evaluation.
-    - **Experimental Approach:** Comparative analysis of multiple algorithms to optimize for precision and recall.
-* **Evaluation & Tuning:** Using Confusion Matrices and F1-mapping to bridge the gap between model "black boxes" and business logic.
+* **Data Ingestion & Audit:** Automated loading with structural integrity checks. Resolved a critical type mismatch for `TotalCharges` (Object to Float).
+* **Robust Data Cleaning:** - **Missing Values:** Utilized **Median Imputation** for missing records because it is robust against outliers, ensuring the model remains unbiased by extreme values.
+    - **Outlier Management:** Applied the **Interquartile Range (IQR) method** to validate data distribution; identified a highly consistent dataset with 0 statistical anomalies.
+* **Feature Engineering:** - Conducted correlation analysis to identify key drivers; discovered a strong 0.83 correlation between tenure and total spend.
+    - Implemented **Standardization (StandardScaler)** and Categorical Encoding.
+* **Predictive Modeling:** - **Split Strategy:** 70% Training / 30% Testing.
+    - **Experimental Approach:** Comparative analysis of Logistic Regression, Random Forest, and XGBoost.
+* **Evaluation & Tuning:** Used **GridSearchCV** for hyperparameter optimization. The final **Logistic Regression** model achieved a champion accuracy of **81.07%**.
+
+---
+
+## 📊 Business Insights & Impact 
+Based on the EDA and Feature Importance results, the following strategic insights were developed:
+
+* **Incentivize Long-Term Loyalty:** "The business should incentivize long-term contracts through small discounts to lock in revenue."
+    * *Evidence:* Month-to-month contracts were identified as the #1 churn driver.
+* **The 'Danger Zone' Window:** "The first 12 months are the 'Danger Zone.' We need a high-touch onboarding program here."
+    * *Evidence:* Data visualization confirmed a significant churn spike for customers with tenure < 1 year.
+* **Price Sensitivity Analysis:** "Churn is price-sensitive. High-value customers feel the 'pinch' of high monthly bills more acutely."
+    * *Evidence:* Model coefficients flagged Fiber Optic (the highest-priced tier) as a major risk factor.
+* **Behavior Over Demographics:** "Demographics like gender are secondary; behavioral factors like contract type and billing are the primary levers for retention."
+    * *Evidence:* Gender distribution was nearly identical for churned vs. stayed customers, proving demographics are not predictive in this segment.
+
+    *   **Proposed Business Action:** Implement an automated "Loyalty Bridge" program that offers discounted 1-year contract upgrades to high-risk month-to-month customers within their first 6 months of tenure.
+
+### 📈 Predictive Drivers
+![Feature Importance](reports/feature_importance.png)
 
 ---
 
@@ -30,18 +48,8 @@ The pipeline is built with a modular structure, ensuring each stage of the data 
 
 ---
 
-## 📊 Business Insights & Impact
-The model successfully identified that the most significant drivers of churn are:
-1.  **Contract Type:** Customers on Month-to-Month contracts have a significantly higher churn rate compared to those on One-year or Two-year plans.
-2.  **Tenure:** New customers are at the highest risk, suggesting a need for enhanced onboarding programs.
-3.  **Charge Density:** High monthly charges relative to tenure act as a primary churn trigger.
-
-**Proposed Business Action:** Implement an automated "Loyalty Bridge" program that offers discounted 1-year contract upgrades to high-risk month-to-month customers within their first 6 months of tenure.
-
----
-
-## Dataset
-The analysis uses the [Telco Customer Churn Dataset](https://www.kaggle.com/datasets/blastchar/telco-customer-churn) from Kaggle. It contains information about a fictional telco company that provided home phone and Internet services to 7,043 customers in California.
+## 🔗 Dataset
+The analysis uses the [Telco Customer Churn Dataset](https://www.kaggle.com/datasets/blastchar/telco-customer-churn) from Kaggle.
 
 ---
 
