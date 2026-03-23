@@ -36,7 +36,7 @@ Based on the EDA and Feature Importance results, the following strategic insight
     *   **Proposed Business Action:** Implement an automated "Loyalty Bridge" program that offers discounted 1-year contract upgrades to high-risk month-to-month customers within their first 6 months of tenure.
 
 ### 📈 Predictive Drivers
-![Feature Importance]()
+![reports/churn_drivers_analysis.png](reports)
 
 ---
 
